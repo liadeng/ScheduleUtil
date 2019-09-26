@@ -40,18 +40,36 @@ namespace ScheduleUtil
             bool isActive = IsScheduleActiveAtGivenTime(weeklyScheduleExample, 1569511207, "Eastern Standard Time");
         }
 
-        struct UnixTimestampRange
+        struct TimeDifference
         {
-            long start;
-            long end;
+            long unixStart;
+            long unixEnd;
+            long diffSeconds;
         }
 
-        struct RepeatableTimeRange
+        struct SimpleSchedule
         {
-            long baseTimestamp;
-            long duration;
-            long repeatInterval;
-            long cutoffTimestamp;
+            /// <summary>
+            /// the schedule is only active during this unixtimestamp range. (assume it's in UTC timezone)
+            /// </summary>
+            long effectiveStart;
+            long effectiveEnd;
+
+            /// <summary>
+            /// the schedule is only active on this day of the week (value range 0-6, a value of -1 means it can be any day of week)
+            /// </summary>
+            int dayOfWeek;
+
+            /// <summary>
+            /// the schedule is only active on this day of the Month (value range 0-30, a value of -1 means it can be any day of month)
+            /// </summary>
+            int dayOfMonth;
+
+            /// <summary>
+            /// the schedule is only active from dailyStartSeconds to dailyEndSeconds (value range 0 - 3600*24)
+            /// </summary>
+            int dailyStartSeconds;
+            int dailyEndSeconds;
         }
 
         /// <summary>
@@ -67,32 +85,25 @@ namespace ScheduleUtil
         }
 
         /// <summary>
-        /// Please implement this function, which returns a list of Daylight Saving Time (DST) ranges, in given year range
-        ///     Range.start = when DST starts (in the form of unixTimestamp)
-        ///     Range.end = when DST ends
-        /// For each year, you need to find out when DST starts/ends at the given timezone,
-        ///     then convert that time to unixTimestamp
+        /// Please implement this function, which returns a list of TimeDifference
+        /// A TimeDifference is defined as the difference seconds between UTC and Local time during a specific range of time.
+        ///     unixStart & unixEnd: when this TimeDifference will be effective
+        ///     diffSeconds: should satisfy: unixTimestamp + diffSeconds --> treat this time as new unixTimestamp and convert it to UTC_DateTime, it will equal to LocalDateTime(unixTimestamp, timeZone)
+        /// yearStart & yearEnd: the returned list should cover EVERY SINGLE SECOND in these years.
+        /// Tips: each year, when daylight saving time (DST) is enabled/disabled, you would need a new TimeDifference object.
+        ///     For time zones without DST, the List contains only one TimeDifference object.
         /// </summary>
-        private static List<UnixTimestampRange> GetListOfDST(string timeZoneText, int yearStart, int yearEnd)
+        private static List<TimeDifference> GetListOfTimeDifference(string timeZoneText, int yearStart, int yearEnd)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        /// Please implement this function, which converts a schedule in a certain timezone to a list of equivalent repeatable time ranges.
-        /// A RepeatableTimeRange defines a time range that repeats itself for a definite number of times:
-        ///     baseTimestamp: the first unixTimestamp when the schedule is active
-        ///     duration: the schedule is active until baseTimestamp + duration
-        ///     repeatInterval: the schedule is active again from baseTimestamp + repeatInterval, to baseTimestamp + repeatInterval + duration, and keep repeating itself
-        ///     cutoffTimestamp: the schedule is inactive forever after this time
-        /// yearStart & yearEnd: the list of RepeatableTimeRange should be covering these years
-        /// Important notes: treat all timezone as if they don't have DST (otherwise it will be really complicated, because repeatable time ranges will be wrong when crossing DST start/end date)
-        /// For example, a daily schedule will yield a list of only one element (for which repeatInterval = 3600*24)
-        ///     Another example, a weekly schedule will yield a list of several elements, depending on how many time ranges are there in the schedule.
-        ///     A monthly schedule isn't really repeatable because each month have different days. And it's not even repeatable on a yearly scale because, there are leap years.
-        ///         So, for a monthly schedule, you need to generate one time range for each of the month, and set repeatInterval = duration, cutoffTimestamp = baseTimestamp + duration
+        /// Please implement this function, which converts a schedule to its equivalent list of simple schedules.
+        /// For example, a daily schedule will yield a list of only one element (dayOfWeek = -1, dayOfMonth = -1)
+        /// Another example, a weekly/monthly schedule will yield many elements, depending on how many time ranges are there in the schedule.
         /// </summary>
-        private static List<RepeatableTimeRange> ConvertScheduleToTimeRanges(Schedule schedule, string timeZoneText, int yearStart, int yearEnd)
+        private static List<SimpleSchedule> GetSimplifiedSchedules(Schedule schedule)
         {
             throw new NotImplementedException();
         }

@@ -1,7 +1,7 @@
 Please implement the three functions in the Main class:
 	IsScheduleActiveAtGivenTime
-	GetListOfDST
-	ConvertScheduleToTimeRanges
+	GetListOfTimeDifference
+	GetSimplifiedSchedules
 	
 	
 Before working on this, you need to be familiar with these concepts:
