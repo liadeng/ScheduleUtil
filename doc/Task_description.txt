@@ -1,7 +1,13 @@
+Its corresponding VS 2017 project is hosted on github: https://github.com/liadeng/ScheduleUtil/
+
+You can download VS 2017 Community Version and open this project.
+
 Please implement the three functions in the Main class:
 	IsScheduleActiveAtGivenTime
 	GetListOfTimeDifference
 	GetSimplifiedSchedules
+	
+(Optional) Write a test function that randomly generates DateTime and test if GetListOfTimeDifference gives correct output.
 	
 	
 Before working on this, you need to be familiar with these concepts:
