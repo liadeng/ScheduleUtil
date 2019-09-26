@@ -1,0 +1,11 @@
+Please implement the three functions in the Main class:
+	IsScheduleActiveAtGivenTime
+	GetListOfDST
+	ConvertScheduleToTimeRanges
+	
+	
+Before working on this, you need to be familiar with these concepts:
+	Unix Timestamp
+	Timezone
+	UTC time / Local time
+	Daylight Saving Time
